@@ -25,19 +25,11 @@ class Server:
         Loads the dataset from a CSV file if it hasn't been loaded yet.
         """
         if self.__dataset is None:
-            if not os.path.exists(self.DATA_FILE):
-                raise FileNotFoundError(f"File not found: {self.DATA_FILE}")
-
-            try:
-                with open(self.DATA_FILE, mode='r') as f:
+            with open(self.DATA_FILE, mode='r') as f:
                     reader = csv.reader(f)
-                self.__dataset = [row for row in reader][1:]
-            except FileNotFoundError:
-                raise FileNotFoundError(
-                            f"Could not open file: {self.DATA_FILE}"
-                                        )
-            except Exception as e:
-                raise Exception(f"An error occurred while reading file:{e}")
+                    dataset = [row for row in reader]
+                   self.__dataset = dataset[1:]
+
         return self.__dataset
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
